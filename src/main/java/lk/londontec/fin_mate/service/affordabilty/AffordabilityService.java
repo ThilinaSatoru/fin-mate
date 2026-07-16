@@ -1,6 +1,7 @@
-package lk.londontec.fin_mate.service;
+package lk.londontec.fin_mate.service.affordabilty;
 
 import lk.londontec.fin_mate.dto.AffordabilityResult;
+import lk.londontec.fin_mate.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

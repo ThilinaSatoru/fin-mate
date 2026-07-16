@@ -11,7 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update   # dev-only; switch to 'validate' + Flyway/Liquibase before anything resembling production
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -32,4 +32,4 @@ logging:
   level:
     root: INFO
     lk.londontec.fin_mate: DEBUG
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO

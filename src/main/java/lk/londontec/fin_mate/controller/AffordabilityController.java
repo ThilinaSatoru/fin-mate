@@ -2,7 +2,7 @@ package lk.londontec.fin_mate.controller;
 
 import lk.londontec.fin_mate.dto.AffordabilityResult;
 import lk.londontec.fin_mate.llm.OpenAiAdviceClient;
-import lk.londontec.fin_mate.service.AffordabilityService;
+import lk.londontec.fin_mate.service.affordabilty.AffordabilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
