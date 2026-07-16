@@ -4,6 +4,7 @@ import lk.londontec.fin_mate.entity.Transaction;
 import lk.londontec.fin_mate.entity.User;
 import lk.londontec.fin_mate.repository.TransactionRepository;
 import lk.londontec.fin_mate.repository.UserRepository;
+import lk.londontec.fin_mate.service.CategorizationService;
 import lk.londontec.fin_mate.util.SmsParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class SmsIngestionService {
     private final List<SmsParser> parsers; // Spring injects all SmsParser beans
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final CategorizationService categorizationService;
 
     @Transactional
     public Transaction ingest(Long userId, String smsBody, String sender) {
@@ -43,6 +45,10 @@ public class SmsIngestionService {
                     .merchant("UNPARSED")
                     .transactionDate(java.time.LocalDateTime.now())
                     .build();
+        }
+
+        if (txn.getCategory() == null && !"UNPARSED".equals(txn.getMerchant())) {
+            txn.setCategory(categorizationService.categorize(txn));
         }
 
         txn.setUser(user);

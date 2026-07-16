@@ -1,3 +1,35 @@
 spring:
   application:
     name: fin-mate
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finmate
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # dev-only; switch to 'validate' + Flyway/Liquibase before anything resembling production
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false  # avoid lazy-loading surprises outside transactions; fetch what you need in services
+
+  webflux:
+    base-path: /
+
+server:
+  port: 8080
+
+openai:
+  api:
+    key: ${OPENAI_API_KEY}
+
+logging:
+  level:
+    root: INFO
+    lk.londontec.fin_mate: DEBUG
+    org.hibernate.SQL: DEBUG
