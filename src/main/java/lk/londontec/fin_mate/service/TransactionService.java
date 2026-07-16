@@ -41,9 +41,15 @@ public class TransactionService {
     }
 
     @Transactional
-    public Transaction assignCategory(Long transactionId, Long categoryId) {
+    public Transaction assignCategory(Long userId, Long transactionId, Long categoryId) {
         Transaction txn = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
+
+        if (!txn.getUser().getId().equals(userId)) {
+            throw new org.springframework.security.access.AccessDeniedException(
+                    "Transaction does not belong to the authenticated user");
+        }
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
         txn.setCategory(category);
