@@ -2,9 +2,11 @@ package lk.londontec.fin_mate.service;
 
 import lk.londontec.fin_mate.component.KeywordCategoryRules;
 import lk.londontec.fin_mate.entity.Category;
+import lk.londontec.fin_mate.entity.MerchantCategoryCache;
 import lk.londontec.fin_mate.entity.Transaction;
 import lk.londontec.fin_mate.llm.OpenAiCategorizationClient;
 import lk.londontec.fin_mate.repository.CategoryRepository;
+import lk.londontec.fin_mate.repository.MerchantCategoryCacheRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
