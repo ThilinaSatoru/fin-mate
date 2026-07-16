@@ -36,7 +36,7 @@ public class SmsIngestionService {
 
         Transaction txn = parser.parse(smsBody, sender);
         if (txn == null) {
-            log.warn("Failed to parse SMS from {}: storing as unparsed", sender);
+            log.warn("No parser matched sender '{}' or parse failed: storing as unparsed", sender);
             txn = Transaction.builder()
                     .rawSms(smsBody)
                     .bankSender(sender)
@@ -47,11 +47,10 @@ public class SmsIngestionService {
                     .build();
         }
 
+        txn.setUser(user);
         if (txn.getCategory() == null && !"UNPARSED".equals(txn.getMerchant())) {
             txn.setCategory(categorizationService.categorize(txn));
         }
-
-        txn.setUser(user);
         return transactionRepository.save(txn);
     }
 }

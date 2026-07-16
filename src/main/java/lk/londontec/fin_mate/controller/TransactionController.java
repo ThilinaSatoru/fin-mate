@@ -1,8 +1,10 @@
 package lk.londontec.fin_mate.controller;
 
+import lk.londontec.fin_mate.dto.MonthlySummary;
 import lk.londontec.fin_mate.entity.Transaction;
 import lk.londontec.fin_mate.security.AppUserPrincipal;
 import lk.londontec.fin_mate.service.TransactionService;
+import lk.londontec.fin_mate.service.savings.SavingsAdviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
+    private final SavingsAdviceService savingsAdviceService;
 
     @PostMapping
     public Transaction create(@AuthenticationPrincipal AppUserPrincipal principal,
@@ -44,14 +47,6 @@ public class TransactionController {
     @GetMapping("/summary/{yearMonth}")
     public MonthlySummary summary(@AuthenticationPrincipal AppUserPrincipal principal,
                                   @PathVariable String yearMonth) {
-        YearMonth ym = YearMonth.parse(yearMonth);
-        var income = transactionService.getTotalIncome(principal.getUserId(), ym);
-        var expenses = transactionService.getTotalExpenses(principal.getUserId(), ym);
-        return new MonthlySummary(income, expenses, income.subtract(expenses));
-    }
-
-    public record MonthlySummary(java.math.BigDecimal income,
-                                 java.math.BigDecimal expenses,
-                                 java.math.BigDecimal net) {
+        return savingsAdviceService.buildMonthlySummary(principal.getUserId(), YearMonth.parse(yearMonth));
     }
 }

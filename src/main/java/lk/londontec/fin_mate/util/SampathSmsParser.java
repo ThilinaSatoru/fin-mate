@@ -1,6 +1,7 @@
 package lk.londontec.fin_mate.util;
 
 import lk.londontec.fin_mate.entity.Transaction;
+import lk.londontec.fin_mate.enums.BankSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,8 @@ public class SampathSmsParser implements SmsParser {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override
-    public boolean supports(String sender) {
-        return sender != null && sender.toUpperCase().contains("SAMPATH");
+    public BankSender bank() {
+        return BankSender.SAMPATH;
     }
 
     @Override
